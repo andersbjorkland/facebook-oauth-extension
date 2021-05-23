@@ -1,7 +1,7 @@
 {
     "name": "andersbjorkland/facebook-oauth-extension",
-    "description": "📦 This Bolt extension can be used as a starting point to base your own extensions on.",
-    "version": "0.0.7",
+    "description": "👍 The Facebook Oauth Extension allows you to login to your admin interface with Facebook.",
+    "version": "0.2",
     "type": "bolt-extension",
     "license": "MIT",
     "authors": [

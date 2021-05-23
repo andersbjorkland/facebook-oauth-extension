@@ -4,15 +4,21 @@
     </div>
     <div class="card-body">
 
+        {% set hasToken = app.session.get('fb_access_token') %}
         <p>{{ extension.composerpackage.description }}</p>
+        <p>Version: {{ extension.composerpackage.version }}</p>
 
         <p>
-            <a href="#" class="btn btn-secondary" data-confirm="This button doesn't actually do anything">
-                <i class="fas fa-carrot"></i> Button
+            {% if hasToken %}
+            <a href="{{ path('facebook_oauth_revoke') }}" class="btn btn-hidden-danger" data-confirm="Revoke access with Facebook login.">
+                <i class="fas fa-spider"></i> Revoke Access
             </a>
-            <a href="#" class="btn btn-hidden-danger" data-confirm="This button doesn't actually do anything">
-                <i class="fas fa-spider"></i> Dangerous button
+            {% else %}
+            <a href="{{ path('facebook_oauth') }}" class="btn btn-secondary" data-confirm="Affirm access with Facebook login.">
+                <i class="fas fa-spider"></i> Add Facebook Login
             </a>
+            {% endif %}
+
         </p>
     </div>
 </div>

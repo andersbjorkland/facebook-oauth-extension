@@ -8,6 +8,7 @@ use Bolt\Extension\ExtensionController;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -56,6 +57,7 @@ class Controller extends ExtensionController
                         'content' => $result->toArray(),
                         'exception' => false
                     ];
+
                 } catch (Exception $e) {
                     $resultContext = [
                         'statusCode' => $e->getCode(),
@@ -90,6 +92,32 @@ class Controller extends ExtensionController
         ];
 
         return $this->render('@facebook-oauth-extension/page.html.twig', $context);
+    }
+
+    /**
+     * @Route("/extensions/facebook-oauth/revoke", name="facebook_oauth_revoke")
+     */
+    public function revokeLogin(HttpClientInterface $client, SessionInterface $session)
+    {
+
+        try {
+            $token = $session->get('fb_access_token');
+            $userId = $session->get('fb_user_id');
+            $result = $client->request('DELETE', "https://graph.facebook.com/v10.0/$userId/permissions?access_token=$token");
+            if ($result) {
+                $session->remove('fb_access_token');
+                $session->remove('fb_user_id');
+                $this->addFlash('notice', 'You Facebook authentication was successfully revoked.');
+            } else {
+                $this->addFlash('notice', 'You Facebook authentication was not revoked.');
+            }
+
+        } catch (Exception $e) {
+            $this->addFlash('warning', 'Something went wrong revoking Facebook access.');
+        }
+
+
+        return $this->redirectToRoute('bolt_dashboard');
     }
 
     protected function verifyToken(string $code, HttpClientInterface $client): ResponseInterface

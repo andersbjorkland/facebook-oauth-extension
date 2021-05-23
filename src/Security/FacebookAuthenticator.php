@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -25,12 +26,14 @@ class FacebookAuthenticator extends AbstractGuardAuthenticator
     private $em;
     private $router;
     private $client;
+    private $session;
 
-    public function __construct(EntityManagerInterface $em, RouterInterface $router, HttpClientInterface $client)
+    public function __construct(EntityManagerInterface $em, RouterInterface $router, HttpClientInterface $client, SessionInterface $session)
     {
         $this->em = $em;
         $this->router = $router;
         $this->client = $client;
+        $this->session = $session;
     }
 
     /**
@@ -58,7 +61,11 @@ class FacebookAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        return $request->query->get('content');
+        if ($request->query->get('content') !== null) {
+            return $request->query->get('content');
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -69,7 +76,7 @@ class FacebookAuthenticator extends AbstractGuardAuthenticator
         $params = $credentials;
         $token = $params["access_token"];
 
-        $userVerificationUrl = "https://graph.facebook.com/me?fields=email&access_token=$token";
+        $userVerificationUrl = "https://graph.facebook.com/me?fields=id,email&access_token=$token";
 
         $response = $this->client->request(
             'GET',
@@ -78,6 +85,9 @@ class FacebookAuthenticator extends AbstractGuardAuthenticator
 
         $response = $response->toArray();
         $email = $response['email'];
+
+        $this->session->set('fb_access_token', $token);
+        $this->session->set('fb_user_id', $response['id']);
 
         return $this->em->getRepository(User::class)
             ->findOneBy(['email' => $email]);
@@ -112,8 +122,10 @@ class FacebookAuthenticator extends AbstractGuardAuthenticator
 
         $user->setLastseenAt(new DateTime());
         $user->setLastIp($request->getClientIp());
+
         /** @var Parser $uaParser */
         $uaParser = Parser::create();
+
         $parsedUserAgent = $uaParser->parse($request->headers->get('User-Agent'))->toString();
         $sessionLifetime = $request->getSession()->getMetadataBag()->getLifetime();
         $expirationTime = (new DateTime())->modify('+' . $sessionLifetime . ' second');
