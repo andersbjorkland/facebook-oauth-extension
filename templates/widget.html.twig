@@ -11,11 +11,11 @@
         <p>
             {% if hasToken %}
             <a href="{{ path('facebook_oauth_revoke') }}" class="btn btn-hidden-danger" data-confirm="Revoke access with Facebook login.">
-                <i class="fas fa-spider"></i> Revoke Access
+                <i class="fas fa-thumbs-down"></i> Revoke Access
             </a>
             {% else %}
             <a href="{{ path('facebook_oauth') }}" class="btn btn-secondary" data-confirm="Affirm access with Facebook login.">
-                <i class="fas fa-spider"></i> Add Facebook Login
+                <i class="fas fa-thumbs-up"></i> Add Facebook Login
             </a>
             {% endif %}
 

@@ -63,9 +63,9 @@ class FacebookAuthenticator extends AbstractGuardAuthenticator
     {
         if ($request->query->get('content') !== null) {
             return $request->query->get('content');
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -73,10 +73,15 @@ class FacebookAuthenticator extends AbstractGuardAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $params = $credentials;
-        $token = $params["access_token"];
+        if (!$credentials) {
+            return null;
+        }
 
-        $userVerificationUrl = "https://graph.facebook.com/me?fields=id,email&access_token=$token";
+
+        $params = $credentials;
+        $token = $params['access_token'];
+
+        $userVerificationUrl = "https://graph.facebook.com/me?fields=id,email&access_token=${token}";
 
         $response = $this->client->request(
             'GET',
@@ -143,7 +148,6 @@ class FacebookAuthenticator extends AbstractGuardAuthenticator
         // or, on success, let the request continue to be handled by the controller
         //return null;
     }
-
 
     public function checkCredentials($credentials, UserInterface $user): bool
     {

@@ -5,4 +5,4 @@ parameters:
 
   # Let the redirect url be a controller name.
   # Default is facebook_oauth_check located in AndersBjorkland\FacebookOauthExtension\Controller\Controller
-  facebook-redirect-url: 'facebook_oauth_check'
+  facebook-redirect-url: 'facebook_oauth'

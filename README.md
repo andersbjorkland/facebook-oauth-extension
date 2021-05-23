@@ -7,7 +7,7 @@ A Bolt CMS extension, the Facebook Oauth Extension allows your admin users to lo
 Facebook login.
 
 This extension is **not** a plug-and-play solution. You are required to do some configurations with Facebook Developer 
-interface, as well as in the security configurations ```config/packages/security.yaml```. It 
+interface, as well as in the security configurations ```config/packages/security.yaml``` and adding environment variables. It 
 also requires you to use same email on your user profile as you have registered with Facebook to be able to log in with 
 this service.
 
@@ -19,7 +19,10 @@ product. Having added this product, go into Facebook Login/Settings. Add *Valid 
 During development, you can have the following entries: https://127.0.0.1:8000/extensions/facebook-oauth, 
 https://127.0.0.1:8000/extensions/facebook-oauth/check
 
-Similarly you can add in **Facebook Login** *Deauthorization Callback URL* to https://your-domain.com/extensions/facebook-oauth/revoke 
+Similarly, you can add in **Facebook Login** *Deauthorization Callback URL* to https://your-domain.com/extensions/facebook-oauth/revoke 
+
+## Screenshot
+![Screenshot](images/screenshot.png)
 
 ## Installation:
 
@@ -27,6 +30,8 @@ Similarly you can add in **Facebook Login** *Deauthorization Callback URL* to ht
 composer require andersbjorkland/facebook-oauth-extension
 ```
 
+
+### Configure security 
 Configure authentication parameters by adding this authenticator in config/packages/security.yaml.
 Do not replace the Bolt configuration.
 ```yaml
@@ -92,6 +97,11 @@ security:
         - { path: '^/(%app_locales%)%bolt.backend_url%', roles: ROLE_ADMIN }
 ```
 
+### Adding environment variables
+By default, this extension will look for the environment variables *FACEBOOK_APP_ID* and *FACEBOOK_APP_SECRET*. 
+Add these where you have your other sensitive variables. You can look up the variables for these in your app at 
+https://developers.facebook.com/ under *settings/basic*, as listed under *App ID* and *App Secret*.
+
 
 ## The authentication flow  
 The user goes to the URL ``/extensions/facebook-oauth``. This will trigger 
@@ -113,17 +123,6 @@ email as is used for their Facebook account, then the guard will authenticate th
 backend.
 
 
-
-## Running PHPStan and Easy Codings Standard
-
-First, make sure dependencies are installed:
-
-```
-COMPOSER_MEMORY_LIMIT=-1 composer update
-```
-
-And then run ECS:
-
-```
-vendor/bin/ecs check src
-```
+## Contributing
+I'm looking at expanding the functionality of this extension. If you have suggestions for improvement you are free to 
+contact me at contact@andersbjorkland.online. 
