@@ -1,1 +1,8 @@
 # An example of a services.yaml file in an extension
+parameters:
+  facebook-app-id: '%env(resolve:FACEBOOK_APP_ID)%'
+  facebook-app-secret: '%env(resolve:FACEBOOK_APP_SECRET)%'
+
+  # Let the redirect url be a controller name.
+  # Default is facebook_oauth_check located in AndersBjorkland\FacebookOauthExtension\Controller\Controller
+  facebook-redirect-url: 'facebook_oauth_check'

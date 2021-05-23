@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AcmeCorp\ReferenceExtension;
+namespace AndersBjorkland\FacebookOauthExtension;
 
 use Bolt\Widget\Injector\RequestZone;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;

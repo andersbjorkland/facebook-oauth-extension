@@ -1,4 +1,4 @@
 
 reference_extension:
-  resource: '../../vendor/acmecorp/reference-extension/src/Controller/'
+  resource: '../../vendor/andersbjorkland/facebook-oauth-extension/src/Controller/'
   type: annotation

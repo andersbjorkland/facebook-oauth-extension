@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AcmeCorp\ReferenceExtension;
+namespace AndersBjorkland\FacebookOauthExtension;
 
 use Bolt\Extension\BaseExtension;
 
@@ -13,7 +13,7 @@ class Extension extends BaseExtension
      */
     public function getName(): string
     {
-        return 'AcmeCorp ReferenceExtension';
+        return 'Facebook Oauth Extension';
     }
 
     /**
@@ -27,7 +27,7 @@ class Extension extends BaseExtension
     {
         $this->addWidget(new ReferenceWidget());
 
-        $this->addTwigNamespace('reference-extension');
+        $this->addTwigNamespace('facebook-oauth-extension');
 
         $this->addListener('kernel.response', [new EventListener(), 'handleEvent']);
     }

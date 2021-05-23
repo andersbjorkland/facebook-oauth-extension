@@ -1,30 +1,32 @@
 {
-    "name": "acmecorp/reference-extension",
+    "name": "andersbjorkland/facebook-oauth-extension",
     "description": "📦 This Bolt extension can be used as a starting point to base your own extensions on.",
+    "version": "0.0.7",
     "type": "bolt-extension",
     "license": "MIT",
     "authors": [
         {
-            "name": "YourNameHere",
-            "email": "youremail@acme.com"
+            "name": "Anders Björkland",
+            "email": "contact@andersbjorkland.online"
         }
     ],
-    "require": {
-        "php": ">=7.2.9",
-        "twig/twig": "^2.12 | ^3.0"
-    },
     "require-dev": {
         "bolt/core": "^4.1",
-        "symplify/easy-coding-standard": "^8.3"
+        "symplify/easy-coding-standard": "^9.3"
     },
     "autoload": {
         "psr-4": {
-            "AcmeCorp\\ReferenceExtension\\": "src/"
+            "AndersBjorkland\\FacebookOauthExtension\\": "src/"
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
-        "entrypoint": "AcmeCorp\\ReferenceExtension\\Extension"
+        "entrypoint": "AndersBjorkland\\FacebookOauthExtension\\Extension"
+    },
+    "require": {
+        "twig/twig": "^3.3",
+        "symfony/http-client": "^5.2",
+        "ext-json": "*"
     }
 }
