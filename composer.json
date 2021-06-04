@@ -1,7 +1,7 @@
 {
     "name": "andersbjorkland/facebook-oauth-extension",
     "description": "👍 The Facebook Oauth Extension allows you to login to your admin interface with Facebook.",
-    "version": "1.0",
+    "version": "1.1",
     "type": "bolt-extension",
     "license": "MIT",
     "authors": [
